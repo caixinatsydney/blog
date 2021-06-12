@@ -1,0 +1,148 @@
+---
+title: Contact
+heading: Get in touch today
+description: We'd love to help you improve your software delivery. 
+
+map:
+  latitude: -33.867205
+  longitude: 151.203832
+  address: "321 Kent Street, Sydney, Australia"
+  zoom: 13
+---
+<div class="map" id="map"></div>
+
+
+<div class="contact-box">
+	<form action="https://formspree.io/mzbjbnoj" method="post" class="contact-form">
+		<input type="hidden" name="_to" value="ftfitting1@gmail.com" />
+		<input type="text" name="_gotcha" style="display: none;">
+
+		<label for="name">Full Name</label>
+		<input type="text" name="name" id="name" placeholder="Enter your name..." />
+
+		<label for="email">Email Address</label>
+		<input type="email" name="email" id="email" placeholder="Enter your email..." required />
+
+		<label for="message">Message</label>
+		<textarea name="message" id="message" placeholder="Enter your message..."></textarea>
+
+		<input type="submit" value="Send Message" />
+	</form>
+	
+
+	<div class="contact-details">
+		<h3 class="editable">Address</h3>
+		<address><a target="_blank" href="https://www.google.com/maps/place/{{ page.map.address | url_encode }}">{{ page.map.address | replace: ", ", ", <br>" }}</a></address>
+
+		<h3 class="editable">Email</h3>
+		<p><a href="mailto:ftfitting1@gmail.com">ftfitting1@gmail.com</a></p>
+	</div>
+</div>
+
+<script type="text/javascript">
+	window.mapData = {{ page.map | jsonify }};
+
+	function initMap() {
+		var myOptions = {
+			scrollwheel: false,
+			draggable: false,
+			panControl: false,
+			disableDefaultUI: true,
+			styles:[
+            			{elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+			    	{elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+			    	{elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+			    {
+			      featureType: 'administrative.locality',
+			      elementType: 'labels.text.fill',
+			      stylers: [{color: '#d59563'}]
+			    },
+			    {
+			      featureType: 'poi',
+			      elementType: 'labels.text.fill',
+			      stylers: [{color: '#d59563'}]
+			    },
+				    {
+				      featureType: 'poi.park',
+				      elementType: 'geometry',
+				      stylers: [{color: '#263c3f'}]
+				    },
+				    {
+				      featureType: 'poi.park',
+				      elementType: 'labels.text.fill',
+				      stylers: [{color: '#6b9a76'}]
+				    },
+				    {
+				      featureType: 'road',
+				      elementType: 'geometry',
+				      stylers: [{color: '#38414e'}]
+				    },
+				    {
+				      featureType: 'road',
+				      elementType: 'geometry.stroke',
+				      stylers: [{color: '#212a37'}]
+				    },
+				    {
+				      featureType: 'road',
+				      elementType: 'labels.text.fill',
+				      stylers: [{color: '#9ca5b3'}]
+				    },
+				    {
+				      featureType: 'road.highway',
+				      elementType: 'geometry',
+				      stylers: [{color: '#746855'}]
+				    },
+				    {
+				      featureType: 'road.highway',
+				      elementType: 'geometry.stroke',
+				      stylers: [{color: '#1f2835'}]
+				    },
+				    {
+				      featureType: 'road.highway',
+				      elementType: 'labels.text.fill',
+				      stylers: [{color: '#f3d19c'}]
+				    },
+				    {
+				      featureType: 'transit',
+				      elementType: 'geometry',
+				      stylers: [{color: '#2f3948'}]
+				    },
+				    {
+				      featureType: 'transit.station',
+				      elementType: 'labels.text.fill',
+				      stylers: [{color: '#d59563'}]
+				    },
+				    {
+				      featureType: 'water',
+				      elementType: 'geometry',
+				      stylers: [{color: '#17263c'}]
+				    },
+				    {
+				      featureType: 'water',
+				      elementType: 'labels.text.fill',
+				      stylers: [{color: '#515c6d'}]
+				    },
+				    {
+				      featureType: 'water',
+				      elementType: 'labels.text.stroke',
+				      stylers: [{color: '#17263c'}]
+				    }
+				  ],
+			zoom: window.mapData.zoom,
+			maxZoom: window.mapData.zoom,
+			minZoom: window.mapData.zoom,
+			center: new google.maps.LatLng(window.mapData.latitude, window.mapData.longitude),
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		map = new google.maps.Map(document.getElementById("map"), myOptions);
+		marker = new google.maps.Marker({
+			map: map,
+			position: new google.maps.LatLng(window.mapData.latitude, window.mapData.longitude)
+		});
+
+		google.maps.event.addDomListener(window, "resize", function () {
+			map.setCenter(myOptions.center);
+		});
+	}
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ site.google_maps_javascript_api_key }}&amp;callback=initMap"></script>
